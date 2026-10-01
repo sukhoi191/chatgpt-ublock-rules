@@ -1,0 +1,117 @@
+! ============================================================
+! ChatGPT UI cleanup
+! Remove unsolicited follow-ups, reactions, and related spacing
+! Last update: 2026-10-01T14:45:31Z
+! ============================================================
+
+
+! ------------------------------------------------------------
+! Reaction emoji
+! ------------------------------------------------------------
+
+! Hide the reaction emoji displayed below a message
+chatgpt.com##div[aria-live="polite"][aria-atomic="true"]:has(> div[role="img"][aria-label^="ChatGPT reacted with "])
+
+
+! ------------------------------------------------------------
+! Memory summary: "Dive Deeper"
+! ------------------------------------------------------------
+
+! Hide the "Dive Deeper" section in the Memory summary
+chatgpt.com##section[data-memory-section-id="dive-deeper"]
+
+
+! ------------------------------------------------------------
+! Writing Block follow-ups
+! ------------------------------------------------------------
+
+! Hide the suggested follow-up panel displayed below Writing Blocks
+! upward(3) removes the entire container, including its spacing
+chatgpt.com##button[class~="group/suggested-followup"]:upward(3)
+
+
+! ------------------------------------------------------------
+! Reaction spacing
+! ------------------------------------------------------------
+
+! Remove the extra right-side spacing reserved for the reaction emoji
+! from the message action-controls row
+chatgpt.com##div:has(> div[aria-live="polite"][aria-atomic="true"] > div[role="img"][aria-label^="ChatGPT reacted with "]) + div:has(.turn-action-controls):style(margin-inline-end: 0 !important)
+
+
+! ------------------------------------------------------------
+! Follow-up spacing
+! ------------------------------------------------------------
+
+! Remove the bottom margin from the actual final response paragraph
+! when a generated follow-up block follows it
+chatgpt.com##span[role="button"]:xpath(ancestor::ul[1][.//span[contains(concat(' ', normalize-space(@class), ' '), ' group/followup-citation ')] or (@data-is-only-node and @data-is-last-node and .//span[contains(concat(' ', normalize-space(@class), ' '), ' entity-underline ')])]/preceding-sibling::*[1][self::p]/preceding-sibling::*[1]):style(margin-bottom:0 !important)
+
+
+! ------------------------------------------------------------
+! Mobile follow-ups
+! ------------------------------------------------------------
+
+! Hide mobile follow-up suggestions and their preceding prompt paragraph
+! Mobile identifies these buttons using the "entity-underline" class
+chatgpt.com##span[role="button"][class~="entity-underline"]:xpath(ancestor::ul[1][@data-is-only-node and @data-is-last-node] | ancestor::ul[1][@data-is-only-node and @data-is-last-node]/preceding-sibling::*[1][self::p])
+
+
+! ------------------------------------------------------------
+! Desktop follow-ups
+! ------------------------------------------------------------
+
+! Hide desktop follow-up suggestions and their preceding prompt paragraph
+! Desktop identifies these buttons using the "group/followup-citation" class
+chatgpt.com##span[role="button"][class~="group/followup-citation"]:xpath(ancestor::ul[1] | ancestor::ul[1]/preceding-sibling::*[1][self::p])
+
+
+! ------------------------------------------------------------
+! Follow-up duplication bug
+! ------------------------------------------------------------
+
+! Work around a ChatGPT rendering bug where the generated follow-up
+! suggestions are duplicated as a normal, non-clickable paragraph + list
+! immediately before the real clickable follow-up block.
+!
+! The duplicated heading may be worded differently from the real
+! follow-up heading, so only the list contents are compared.
+!
+! The filter only removes the plain duplicate when:
+! - it appears immediately before a real follow-up block,
+! - both lists contain the same number of items, and
+! - every item in the plain list also exists in the real follow-up list.
+!
+! Item order does not matter.
+! Works on both desktop and mobile.
+chatgpt.com##span[role="button"]:is([class~="group/followup-citation"],[class~="entity-underline"]):xpath(ancestor::ul[1]/preceding-sibling::*[2][self::ul][count(li) = count(following-sibling::*[2][self::ul]/li) and count(li[. = ancestor::ul[1]/following-sibling::*[2][self::ul]/li]) = count(li)] | ancestor::ul[1]/preceding-sibling::*[2][self::ul][count(li) = count(following-sibling::*[2][self::ul]/li) and count(li[. = ancestor::ul[1]/following-sibling::*[2][self::ul]/li]) = count(li)]/preceding-sibling::*[1][self::p])
+
+! Remove leftover bottom spacing caused by the duplicate follow-up bug.
+! Targets the last real response element immediately before the hidden
+! duplicate paragraph + list. Works on both desktop and mobile.
+chatgpt.com##span[role="button"]:is([class~="group/followup-citation"],[class~="entity-underline"]):xpath(ancestor::ul[1]/preceding-sibling::*[2][self::ul][count(li) = count(following-sibling::*[2][self::ul]/li) and count(li[. = ancestor::ul[1]/following-sibling::*[2][self::ul]/li]) = count(li)]/preceding-sibling::*[1][self::p]/preceding-sibling::*[1]):style(margin-bottom:0 !important)
+
+
+! ------------------------------------------------------------
+! Malformed / double follow-up fallback
+! ------------------------------------------------------------
+
+! Handles another ChatGPT rendering bug where a non-clickable
+! suggestion block appears immediately before the real clickable
+! follow-up block, but contains different wording or suggestions.
+!
+! This is intentionally heuristic because the plain block has no
+! dedicated DOM marker identifying it as a follow-up.
+chatgpt.com##span[role="button"]:is([class~="group/followup-citation"],[class~="entity-underline"]):xpath(ancestor::ul[1][not(following-sibling::*)]/preceding-sibling::*[2][self::ul][not(.//span[@role="button"])] | ancestor::ul[1][not(following-sibling::*)]/preceding-sibling::*[2][self::ul][not(.//span[@role="button"])]/preceding-sibling::*[1][self::p])
+
+! Remove leftover spacing caused by the malformed/double block.
+chatgpt.com##span[role="button"]:is([class~="group/followup-citation"],[class~="entity-underline"]):xpath(ancestor::ul[1][not(following-sibling::*)]/preceding-sibling::*[2][self::ul][not(.//span[@role="button"])]/preceding-sibling::*[1][self::p]/preceding-sibling::*[1]):style(margin-bottom:0 !important)
+
+
+! ------------------------------------------------------------
+! Personality rating prompt
+! ------------------------------------------------------------
+
+! Hide the "Do you like this personality?" feedback prompt.
+! Removes its parent wrapper as well to avoid leftover spacing.
+chatgpt.com##aside[aria-label="Do you like this personality?"]:upward(1)
