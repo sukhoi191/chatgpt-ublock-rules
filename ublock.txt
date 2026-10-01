@@ -1,7 +1,7 @@
 ! ============================================================
 ! ChatGPT UI cleanup
 ! Remove unsolicited follow-ups, reactions, and related spacing
-! Last update: 2026-10-01T14:52:51Z
+! Last update: 2026-10-01T16:36:30Z
 ! ============================================================
 
 
@@ -109,9 +109,10 @@ chatgpt.com##span[role="button"]:is([class~="group/followup-citation"],[class~="
 
 
 ! ------------------------------------------------------------
-! Personality rating prompt
+! Feedback rating prompts
 ! ------------------------------------------------------------
 
-! Hide the "Do you like this personality?" feedback prompt.
-! Removes its parent wrapper as well to avoid leftover spacing.
-chatgpt.com##aside[aria-label="Do you like this personality?"]:upward(1)
+! Hide ChatGPT feedback/rating prompts without depending on their
+! wording or language. Targets widgets containing adjacent
+! pressed-state rating buttons and removes their spacing wrapper.
+chatgpt.com##aside:has(button[aria-pressed] + button[aria-pressed]):upward(1)
