@@ -1,7 +1,7 @@
 ! ============================================================
 ! ChatGPT UI cleanup
 ! Remove unsolicited follow-ups, reactions, and related spacing
-! Last update: 2026-10-05T17:18:08Z
+! Last update: 2026-10-08T10:52:07Z
 ! ============================================================
 
 
@@ -121,4 +121,5 @@ chatgpt.com##aside:has(button[aria-pressed] + button[aria-pressed]):upward(1)
 ! ------------------------------------------------------------
 ! Advertising/upsell beacon banners 
 ! ------------------------------------------------------------
-chatgpt.com##div:has(> aside img[src*="/beacons/ads-"])
+! Hide ChatGPT beacon banners
+chatgpt.com##aside[class^="surface-"]:has(div[class^="dismiss-"]):upward(1)
