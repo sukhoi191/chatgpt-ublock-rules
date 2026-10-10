@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name         ChatGPT
 @namespace    better-chatgpt-mobile
-@version      1.0.0
+@version      1.1.0
 ==/UserStyle== */
 
 @-moz-document domain("chatgpt.com") {
@@ -15,6 +15,7 @@
             --mobile-header-top-gap: 0px;
             --mobile-header-side-gap: 0px;
             --mobile-header-radius: 0px;
+            --mobile-header-height: 48px;
         }
 
 
@@ -25,9 +26,10 @@
         #page-header {
             position: fixed !important;
 
-            top: var(--mobile-header-top-gap) !important;
+            top: 0 !important;
             left: var(--mobile-header-side-gap) !important;
             right: var(--mobile-header-side-gap) !important;
+            height: var(--mobile-header-height) !important;
 
             width: auto !important;
             max-width: none !important;
