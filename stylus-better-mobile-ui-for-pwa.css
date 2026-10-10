@@ -1,0 +1,134 @@
+/* ==UserStyle==
+@name         ChatGPT
+@namespace    better-chatgpt-mobile
+@version      1.0.0
+==/UserStyle== */
+
+@-moz-document domain("chatgpt.com") {
+    @media (max-width: 768px) {
+        :root {
+            /* Easy knobs */
+            --mobile-composer-edge-gap: 0;
+            --mobile-composer-bottom-gap: 0;
+            --mobile-composer-radius: 0;
+
+            --mobile-header-top-gap: 0px;
+            --mobile-header-side-gap: 0px;
+            --mobile-header-radius: 0px;
+        }
+
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        #page-header {
+            position: fixed !important;
+
+            top: var(--mobile-header-top-gap) !important;
+            left: var(--mobile-header-side-gap) !important;
+            right: var(--mobile-header-side-gap) !important;
+
+            width: auto !important;
+            max-width: none !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+            border-radius: var(--mobile-header-radius) !important;
+
+            /* Make the whole thing one continuous bar */
+            background: var(--main-surface-primary) !important;
+
+            gap: 0 !important;
+
+            z-index: 100 !important;
+            
+            align-items: start;
+        }
+
+        /*
+         * Header children should no longer look like
+         * independent floating pills.
+         */
+        #page-header .translucent-surface {
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        #page-header > div {
+            margin: 0 !important;
+            gap: 0 !important;
+            background: var(--main-surface-primary) !important;
+        }
+
+        #page-header [data-testid="thread-header-right-actions-container"],
+        #page-header [data-testid="thread-header-right-actions"] {
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 0 !important;
+        }
+
+        #conversation-header-actions {
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+
+
+        /* =========================
+           COMPOSER
+           ========================= */
+
+        .composer-parent
+            .text-base.mx-auto:has(form[data-type="unified-composer"]) {
+            padding-left: var(--mobile-composer-edge-gap) !important;
+            padding-right: var(--mobile-composer-edge-gap) !important;
+
+            width: 100% !important;
+            max-width: none !important;
+        }
+
+        .composer-parent
+            div:has(> .w-full > div > .contents > form[data-type="unified-composer"]) {
+            width: 100% !important;
+            max-width: none !important;
+
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            margin-bottom: var(--mobile-composer-bottom-gap) !important;
+        }
+
+        form[data-type="unified-composer"] {
+            width: 100% !important;
+            max-width: none !important;
+
+            --composer-border-radius:
+                var(--mobile-composer-radius) !important;
+        }
+
+        [data-composer-surface="true"] {
+            border-radius:
+                var(--mobile-composer-radius) !important;
+        }
+
+        [data-composer-body] {
+            padding-left: 6px !important;
+            padding-right: 6px !important;
+        }
+        
+        .stage-layout {
+            padding-top: 0 !important;
+        }
+
+        #page-header > div:nth-child(2) {
+            gap: 0 !important;
+        }
+
+        #page-header > div:nth-child(2) > .translucent-surface {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+
+            border-radius: 0 !important;
+        }
+    }
+}
